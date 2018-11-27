@@ -1,0 +1,14 @@
+---
+title: "Ceng 574 - Assignment 1"
+author: "Önder Ýlke Sever - 1881473"
+date: "24 Ekim 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1) Preprocessing
+
+
