@@ -6,3 +6,5 @@
 *.mem
 
 *.noisy
+
+\.Rhistory
