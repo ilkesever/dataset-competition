@@ -53,7 +53,7 @@ sep_data = s.data
 ```{r}
 distance_matrix <- dist(sep_data, method = "euclidean") # distance matrix
 
-dunn <- clValid(sep_data, 2:20, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data, 8:12, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 ```
 
@@ -77,45 +77,54 @@ autoplot(prcomp(sep_data))
 ```{r}
 sep_data_lin_reduc = prcomp(sep_data)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:17], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:17], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:13], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:13], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:5], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:5], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:2], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:2], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 ```
 ```{r}
-dunn <- clValid(sep_data_lin_reduc$x[,1:11], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:11], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:12], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:12], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:13], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:13], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:14], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:14], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:15], 10, clMethods=c("kmeans"), validation="internal")
+dunn <- clValid(sep_data_lin_reduc$x[,1:15], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 ```
+```{r}
+dunn <- clValid(sep_data_lin_reduc$x[,1:12], 7, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
+plot(dunn)
+summary(dunn)
 
+dunn <- clValid(sep_data_lin_reduc$x[,1:12], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
+plot(dunn)
+summary(dunn)
 
-
-# 3) Validation
+dunn <- clValid(sep_data_lin_reduc$x[,1:12], 13, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
+plot(dunn)
+summary(dunn)
+```
 
