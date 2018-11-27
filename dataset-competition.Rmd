@@ -8,6 +8,92 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(clusterGeneration)
+library(MASS)
+library(clusterGeneration)
+library(apcluster)
+library(smacof)
+library(ProjectionBasedClustering)
+library(ecodist)
+library(vegan)
+library(factoextra)
+library(MASS)
+library(clusterGeneration)
+library(apcluster)
+library(ProjectionBasedClustering)
+library(ecodist)
+library(vegan)
+library(factoextra)
+library(cluster)
+library(clValid)
+data1 =genRandomClust(numClust=3, sepVal=0.7, numNonNoisy=4, clustszind=3, clustSizes=c(20,20,20))
+sep_data <- data1$datList$test_1
+```
+
 # 1) Preprocessing
 
+
+# 2) Clustering
+
+## i) Without Dimensity Reduction
+```{r}
+distance_matrix <- dist(sep_data, method = "euclidean") # distance matrix
+fit_sep_data <- hclust(distance_matrix, method="average")
+
+set.seed(123)
+kmeans_sep_data <- kmeans(sep_data, 3, nstart = 25)
+
+plot(fit_sep_data)
+rect.hclust(fit_sep_data, k = 3, border = 2:5)
+
+sub_grp <- cutree(fit_sep_data, k = 3)
+fviz_cluster(list(data = sep_data, cluster = sub_grp))
+
+fviz_cluster(kmeans_sep_data, data = sep_data)
+
+
+silhouette_sep_data <- silhouette(kmeans_sep_data$cluster, dist(sep_data))
+plot(silhouette_sep_data)
+```
+
+
+## ii) with Dimensity Reduction
+
+### a) Linear Projection
+
+```{r}
+sep_data_lin_reduc = prcomp(sep_data)
+sep_data_lin_reduc
+
+set.seed(123)
+l_kmeans_sep_data <- kmeans(sep_data_lin_reduc$x, 3, nstart = 25)
+
+fviz_cluster(l_kmeans_sep_data, data = sep_data)
+
+l_silhouette_sep_data <- silhouette(l_kmeans_sep_data$cluster, dist(sep_data))
+plot(l_silhouette_sep_data)
+
+```
+
+### b) Non Linear Projection
+
+```{r}
+
+nl_sep_data.x <- sep_data
+nl_sep_data.dist <- dist(sep_data.x)
+nl_sep_data.mds <- isoMDS(sep_data.dist)
+plot(nl_sep_data.mds$points, type = "n")
+text(nl_sep_data.mds$points, labels = as.character(1:nrow(sep_data.x)))
+
+set.seed(123)
+nl_kmeans_sep_data <- kmeans(nl_sep_data.mds$points, 3, nstart = 25)
+
+fviz_cluster(nl_kmeans_sep_data, data = sep_data)
+
+nl_silhouette_sep_data <- silhouette(nl_kmeans_sep_data$cluster, dist(sep_data))
+plot(nl_silhouette_sep_data)
+```
+
+# 3) Validation
 
