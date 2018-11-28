@@ -76,7 +76,7 @@ autoplot(prcomp(sep_data))
 ```{r}
 library(clusterSim)  
 minDim=2
-maxDim=17
+maxDim=7
 sep_data_lin_reduc = prcomp(sep_data)
 
 minBuildinFound = 100
