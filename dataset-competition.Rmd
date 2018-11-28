@@ -53,7 +53,7 @@ sep_data = s.data
 ```{r}
 distance_matrix <- dist(sep_data, method = "euclidean") # distance matrix
 
-dunn <- clValid(sep_data, 8:12, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
+dunn <- clValid(sep_data, 20:40, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 ```
 
@@ -73,58 +73,59 @@ barplot(propVar,main = "Proportion of Variance")
 library(ggfortify)
 autoplot(prcomp(sep_data))
 ```
+```{r}
+library(clusterSim)  
+minDim=2
+maxDim=17
+sep_data_lin_reduc = prcomp(sep_data)
+
+minBuildinFound = 100
+minDimFound = 0
+minKFound = 0
+
+for (nDim in minDim:maxDim){
+  dataDim = sep_data_lin_reduc$x[,0:nDim]
+  min=20
+  max=50
+  result <- array(0, c(max-min+1, 2))
+  result[,1] <- min:max
+  clusters <- NULL
+  
+  for (nc in min:max) {
+    km <- kmeans(dataDim, centers=nc, nstart=25)
+    result[nc-min+1, 2] <- DB <- index.DB(dataDim, km$cluster, centrotypes="centroids")$DB
+    clusters <- rbind(clusters)
+    if(result[nc-min+1, 2] < minBuildinFound){
+      minDimFound = nDim
+      minKFound = nc
+      minBuildinFound = result[nc-min+1, 2]
+      
+      print(paste("Found Minimum Davies Bouldin Index : ", minBuildinFound))
+      print(paste("Found Dimension  : ", minDimFound))
+      print(paste("Found K for Kmeans : ", minKFound))
+    }
+  }
+  
+  plot(result, type="b", pch=0, xlab="Number of clusters", ylab=paste("Davies Bouldin Index for Dimension : ",nDim), xaxt="n")
+  
+  axis(1, c(min:max))
+}
+
+paste("Found Minimum Davies Bouldin Index : ", minBuildinFound)
+paste("Found Dimension  : ", minDimFound)
+paste("Found K for Kmeans : ", minKFound)
+```
+
 
 ```{r}
 sep_data_lin_reduc = prcomp(sep_data)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:17], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
+
+dunn <- clValid(sep_data_lin_reduc$x[,0:minDimFound], minKFound, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
 plot(dunn)
 summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:13], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
-
-dunn <- clValid(sep_data_lin_reduc$x[,1:5], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
-
-dunn <- clValid(sep_data_lin_reduc$x[,1:2], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
 ```
-```{r}
-dunn <- clValid(sep_data_lin_reduc$x[,1:11], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:12], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
 
-dunn <- clValid(sep_data_lin_reduc$x[,1:13], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
-
-dunn <- clValid(sep_data_lin_reduc$x[,1:14], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
-
-dunn <- clValid(sep_data_lin_reduc$x[,1:15], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
-```
-```{r}
-dunn <- clValid(sep_data_lin_reduc$x[,1:12], 7, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
-
-dunn <- clValid(sep_data_lin_reduc$x[,1:12], 10, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
-
-dunn <- clValid(sep_data_lin_reduc$x[,1:12], 13, clMethods=c("kmeans"), validation="internal", maxitems = 10000)
-plot(dunn)
-summary(dunn)
-```
 
